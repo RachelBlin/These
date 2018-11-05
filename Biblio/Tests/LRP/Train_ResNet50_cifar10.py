@@ -16,7 +16,7 @@ import numpy as np
 import cv2
 
 NUM_CLASSES = 10
-BATCH_SIZE = 2
+BATCH_SIZE = 128
 NUM_EPOCHS = 3
 use_data_aug = True
 
@@ -31,10 +31,9 @@ def resize_image_arr(img_arr):
 
 
 (x_train, y_train), (x_test, y_test) = cifar10.load_data()
-x_train = x_train.reshape(x_train.shape[0], 32, 32, 3)
-y_train = y_train
-x_test = x_test.reshape(x_test.shape[0], 32, 32, 3)
-y_test = y_test
+
+x_train = resize_image_arr(x_train)
+x_test = resize_image_arr(x_test)
 
 # Convert class vectors to binary class matrices.
 y_train = keras.utils.to_categorical(y_train, NUM_CLASSES)
