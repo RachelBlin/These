@@ -14,7 +14,7 @@ from keras.layers.normalization import BatchNormalization
 from keras.models import Model
 from keras.preprocessing.image import ImageDataGenerator
 from keras.losses import categorical_crossentropy
-from keras.optimizers import Adadelta
+from keras.optimizers import Adadelta, SGD
 
 # Définition des chemins
 path = "/Users/rblin/Downloads/PolaBot-Dataset"
@@ -120,6 +120,21 @@ for n in range(len(list_img_BGR_test)):
     X_test_BGR[n, :, :, :] = im_BGR_np_temp
     X_test_polar[n, :, :] = im_polar_np_temp
 
+X_train_BGR = X_train_BGR.astype('float32')
+X_train_polar = X_train_polar.astype('float32')
+X_test_BGR = X_test_BGR.astype('float32')
+X_test_polar = X_test_polar.astype('float32')
+X_train_BGR /= 255
+X_train_polar /= 255
+X_test_BGR /= 255
+X_test_polar /= 255
+
+X_train_BGR = (X_train_BGR - 0.5) * 2
+X_train_polar = (X_train_polar - 0.5) * 2
+X_test_BGR = (X_test_BGR - 0.5) * 2
+X_test_polar = (X_test_polar - 0.5) * 2
+print(X_train_BGR)
+
 # Affichage de 9 images au hasard contenant une voiture
 # afin de vérifier que l'étiquetage a été fait correctement
 
@@ -171,7 +186,7 @@ x = Flatten()(model(input))
 x = Dense(1000, activation='relu')(x)
 x = BatchNormalization()(x)
 x = Dropout(0.5)(x)
-x = Dense(2, activation='linear')(x)
+x = Dense(2, activation='softmax')(x)
 
 new_model = Model(inputs=input, outputs=x)
 
@@ -194,11 +209,13 @@ datagen = ImageDataGenerator(
 # Maintenant que le modèle a été construit pour les
 # images RGB, on peut passer à l'entraînement
 
-epochs = 1
+epochs = 10
 batch_size = 16
 
+sgd = SGD(lr=0.001, momentum=0.9, decay=0.0, nesterov=False)
+
 new_model.compile(loss=categorical_crossentropy,
-              optimizer=Adadelta(),
+              optimizer=sgd,
               metrics=['accuracy'])
 
 #print(X_test_BGR.shape)
@@ -207,7 +224,7 @@ Y_test = keras.utils.to_categorical(Y_test, num_classes)
 
 #datagen.fit(X_train_BGR)
 
-print(type(X_test_BGR), type(Y_test))
+#print(type(X_test_BGR), type(Y_test))
 
 new_model.fit_generator(datagen.flow(X_train_BGR, Y_train,
           batch_size=batch_size),
