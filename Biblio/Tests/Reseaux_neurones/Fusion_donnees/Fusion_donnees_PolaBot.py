@@ -2,7 +2,6 @@
 
 import os
 import imageio
-import pylab as pl
 import numpy as np
 import random
 
@@ -31,21 +30,6 @@ elements_polar = sorted(os.listdir(path_polar))
 elements_BGR.remove("output")
 elements_BGR.remove(".DS_Store")
 elements_polar.remove(".DS_Store")
-
-# Affichage d'un élément de la ground truth contenant
-# une voiture, afin de connaître la valeur des pixels
-# qui caractérisent la voiture dans la colormap
-
-path_gt = path + "/" + dossiers[3]
-path_gt_car = path_gt + "/Colorized_GroundTruth/1.png"
-im = imageio.imread(path_gt_car)
-pl.figure(1)
-pl.imshow(im)
-pl.title("Ground truth contenant une voiture")
-
-# On voit qu'il y a d'autres pixels de la même couleur
-# dans l'image ne représentant pas une voiture du coup
-# il faudra étiqueter les images à la main
 
 Y = np.zeros((177, 1))
 Y = Y.astype(int)
@@ -82,14 +66,8 @@ for l in indexes_test:
     list_img_BGR_test.append(elements_BGR[l])
     list_img_polar_test.append(elements_polar[l])
 
-# Regardons maintenant le format des images BGR et polar
-im_BGR = imageio.imread(path_BGR + "/" + list_img_BGR_train[0])
-print("Format image BGR : ", im_BGR.shape)
-im_polar = imageio.imread(path_polar + "/" + list_img_polar_train[0])
-print("Format image polar : ", im_polar.shape)
-
-# Maintenant qu'on a le format, on va constituer les vecteurs
-# qui vont contenir les images pour l'apprentissage du réseau
+# Constitution des vecteurs qui vont contenir
+# les images pour l'apprentissage du réseau
 
 X_train_BGR = np.zeros((89, 190, 254, 3))
 X_train_BGR = X_train_BGR.astype(int)
@@ -133,49 +111,11 @@ X_train_BGR = (X_train_BGR - 0.5) * 2
 X_train_polar = (X_train_polar - 0.5) * 2
 X_test_BGR = (X_test_BGR - 0.5) * 2
 X_test_polar = (X_test_polar - 0.5) * 2
-print(X_train_BGR)
-
-# Affichage de 9 images au hasard contenant une voiture
-# afin de vérifier que l'étiquetage a été fait correctement
-
-itemindex = np.where(Y_train == 0)
-
-indexes = itemindex[0]
-indexes = indexes.tolist()
-
-rand_ind = random.sample(indexes, 9)
-
-pl.figure(2)
-pl.figure(figsize=(15, 15))
-pl.clf()
-for i in range(9):
-    pl.subplot(3, 3, i + 1)
-    im_temp = X_train_BGR[rand_ind[i]]
-    pl.imshow(im_temp)
-
-# De même pour les images de test
-
-itemindex = np.where(Y_test==0)
-
-indexes = itemindex[0]
-indexes = indexes.tolist()
-
-rand_ind = random.sample(indexes, 9)
-
-pl.figure(3)
-pl.figure(figsize=(15,15))
-pl.clf()
-for i in range(9) :
-    pl.subplot(3,3,i+1)
-    im_temp = X_test_BGR[rand_ind[i]]
-    pl.imshow(im_temp)
 
 # On a maintenant les vecteurs prets pour l'apprentissage,
 # mettons donc en place le réseau de neurones
 
 model = ResNet50(weights='imagenet', include_top=False)
-
-#model.summary()
 
 num_classes =2
 print(model.input)
@@ -198,18 +138,17 @@ new_model.summary()
 # augmentation.
 
 datagen = ImageDataGenerator(
-    #featurewise_center=True,
-    #featurewise_std_normalization=True,
-    rescale=1./255,
-    rotation_range=15,
+    rotation_range=30,
     width_shift_range=.15,
     height_shift_range=.15,
-    horizontal_flip=True)
+    horizontal_flip=True,
+    shear_range=0.2,
+    fill_mode='nearest')
 
 # Maintenant que le modèle a été construit pour les
 # images RGB, on peut passer à l'entraînement
 
-epochs = 10
+epochs = 5
 batch_size = 16
 
 sgd = SGD(lr=0.001, momentum=0.9, decay=0.0, nesterov=False)
@@ -218,19 +157,25 @@ new_model.compile(loss=categorical_crossentropy,
               optimizer=sgd,
               metrics=['accuracy'])
 
-#print(X_test_BGR.shape)
 Y_train = keras.utils.to_categorical(Y_train, num_classes)
 Y_test = keras.utils.to_categorical(Y_test, num_classes)
 
-#datagen.fit(X_train_BGR)
+train_generator = datagen.flow(
+        X_train_BGR,
+        Y_train,
+        batch_size=batch_size)
 
-#print(type(X_test_BGR), type(Y_test))
+validation_generator = datagen.flow(
+        X_test_BGR,
+        Y_test,
+        batch_size=batch_size)
 
-new_model.fit_generator(datagen.flow(X_train_BGR, Y_train,
-          batch_size=batch_size),
-          epochs=epochs,
-          verbose=1,
-          validation_data=(X_test_BGR, Y_test))
+new_model.fit_generator(train_generator,
+        steps_per_epoch=2000 // batch_size,
+        epochs=epochs,
+        verbose=1,
+        validation_data=validation_generator,
+        validation_steps=800 // batch_size)
 score = new_model.evaluate(X_test_BGR, Y_test, verbose=0)
 print('Test loss:', score[0])
 print('Test accuracy:', score[1])
