@@ -125,20 +125,18 @@ X_test_BGR_resized = (X_test_BGR_resized - 0.5) * 2
 # On a maintenant les vecteurs prets pour l'apprentissage,
 # mettons donc en place le réseau de neurones
 
-model = NASNetLarge(weights='imagenet', include_top=True, classes=1000)
+model = NASNetLarge(weights='imagenet', input_shape=(190, 254, 3), include_top=False)
 
-"""num_classes =2
+num_classes =2
 print(model.input)
 
-#input = Input(shape = (190, 254, 3))
-
-x = Flatten()(model(input))
-x = Dense(1000, activation='relu')(x)
-x = BatchNormalization()(x)
+x = Flatten()(model.output)
+x = Dense(4096, activation='relu')(x)
 x = Dropout(0.5)(x)
-x = Dense(2, activation='softmax')(x)
+x = BatchNormalization()(x)
+output = Dense(num_classes, activation='softmax')(x)
 
-new_model = Model(inputs=input, outputs=x)
+new_model = Model(inputs=model.input, outputs=output)
 
 new_model.summary()
 
@@ -185,18 +183,18 @@ new_model.fit_generator(train_generator,
         epochs=epochs,
         verbose=1,
         validation_data=validation_generator,
-        validation_steps=800 // batch_size)"""
+        validation_steps=800 // batch_size)
 sgd = SGD(lr=0.001, momentum=0.9, decay=0.0, nesterov=False)
-model.compile(loss=categorical_crossentropy,
+new_model.compile(loss=categorical_crossentropy,
               optimizer=sgd,
               metrics=['accuracy'])
-#score = model.evaluate(X_test_BGR, Y_test, verbose=0)
-#print('Test loss:', score[0])
-#print('Test accuracy:', score[1])
+score = new_model.evaluate(X_test_BGR, Y_test, verbose=0)
+print('Test loss:', score[0])
+print('Test accuracy:', score[1])
 
-predictions = model.predict(X_test_BGR_resized[0:10,:,:,:])
-index_predict = np.argmax(predictions, axis=1)
-unique, counts = np.unique(index_predict, return_counts=True)
-print(dict(zip(unique, counts)))
+#predictions = model.predict(X_test_BGR_resized[0:10,:,:,:])
+#index_predict = np.argmax(predictions, axis=1)
+#unique, counts = np.unique(index_predict, return_counts=True)
+#print(dict(zip(unique, counts)))
 
 # Pour la classification de 10 images, on retrouve les classes suivantes :
