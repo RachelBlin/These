@@ -17,7 +17,7 @@ import numpy as np
 import imageio
 
 # path_folder = "/home/rblin/Documents/Archive/images/PolaBot-Dataset/PolarCam" (PolaBot)
-path_folder = "/home/rblin/Documents/Aquisitions/Polar/Automne/Brouillard/DM"
+path_folder = "/home/rblin/Documents/Aquisitions/Polar/Automne/Ensoleille/FM"
 
 imgs_polar = sorted(os.listdir(path_folder))
 # imgs_polar.remove(".DS_Store")
@@ -54,10 +54,12 @@ for k in range(len(imgs_polar)):
     imageio.imwrite("/home/rblin/Documents/Traitement_PolaBot/P/" + str(k) + "_P45.png", P45)
     imageio.imwrite("/home/rblin/Documents/Traitement_PolaBot/P/" + str(k) + "_P90.png", P90)"""
 
+    path_traitement = "/home/rblin/Documents/Aquisitions/Traitement_polar/Automne/Ensoleille/FM/"
+
     # Caméra polarimétrique
-    imageio.imwrite("/home/rblin/Documents/Aquisitions/Traitement_polar/Automne/Brouillard/DM/P/" + str(k) + "_P0.png", P0)
-    imageio.imwrite("/home/rblin/Documents/Aquisitions/Traitement_polar/Automne/Brouillard/DM/P/" + str(k) + "_P45.png", P45)
-    imageio.imwrite("/home/rblin/Documents/Aquisitions/Traitement_polar/Automne/Brouillard/DM/P/" + str(k) + "_P90.png", P90)
+    imageio.imwrite(path_traitement + "P/" + str(k) + "_P0.png", P0)
+    imageio.imwrite(path_traitement + "P/" + str(k) + "_P45.png", P45)
+    imageio.imwrite(path_traitement + "P/" + str(k) + "_P90.png", P90)
 
     # Calcul des parametres de Stokes
 
@@ -73,9 +75,9 @@ for k in range(len(imgs_polar)):
     imageio.imwrite("/home/rblin/Documents/Traitement_PolaBot/Stokes/" + str(k) + "_S1.png", Stokes[1])
     imageio.imwrite("/home/rblin/Documents/Traitement_PolaBot/Stokes/" + str(k) + "_S2.png", Stokes[2])"""
     # Caméra polarimétrique
-    imageio.imwrite("/home/rblin/Documents/Aquisitions/Traitement_polar/Automne/Brouillard/DM/Stokes/" + str(k) + "_S0.png", Stokes[0])
-    imageio.imwrite("/home/rblin/Documents/Aquisitions/Traitement_polar/Automne/Brouillard/DM/Stokes/" + str(k) + "_S1.png", Stokes[1])
-    imageio.imwrite("/home/rblin/Documents/Aquisitions/Traitement_polar/Automne/Brouillard/DM/Stokes/" + str(k) + "_S2.png", Stokes[2])
+    imageio.imwrite(path_traitement + "Stokes/" + str(k) + "_S0.png", Stokes[0])
+    imageio.imwrite(path_traitement + "Stokes/" + str(k) + "_S1.png", Stokes[1])
+    imageio.imwrite(path_traitement + "Stokes/" + str(k) + "_S2.png", Stokes[2])
 
     # Calcul de l'AOP et du DOP
 
@@ -87,6 +89,6 @@ for k in range(len(imgs_polar)):
     imageio.imwrite("/home/rblin/Documents/Traitement_PolaBot/Params/" + str(k) + "_AOP.png", AOP)
     imageio.imwrite("/home/rblin/Documents/Traitement_PolaBot/Params/" + str(k) + "_DOP.png", DOP)"""
     # Caméra polarimétrique
-    imageio.imwrite("/home/rblin/Documents/Aquisitions/Traitement_polar/Automne/Brouillard/DM/Params/" + str(k) + "_S0.png", Stokes[0])
-    imageio.imwrite("/home/rblin/Documents/Aquisitions/Traitement_polar/Automne/Brouillard/DM/Params/" + str(k) + "_AOP.png", AOP)
-    imageio.imwrite("/home/rblin/Documents/Aquisitions/Traitement_polar/Automne/Brouillard/DM/Params/" + str(k) + "_DOP.png", DOP)
+    imageio.imwrite(path_traitement + "Params/" + str(k) + "_S0.png", Stokes[0])
+    imageio.imwrite(path_traitement + "Params/" + str(k) + "_AOP.png", AOP)
+    imageio.imwrite(path_traitement + "Params/" + str(k) + "_DOP.png", DOP)

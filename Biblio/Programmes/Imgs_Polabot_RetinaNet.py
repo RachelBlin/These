@@ -6,7 +6,9 @@ import numpy as np
 import imageio
 
 # path_folder = "/home/rblin/Documents/Traitement_PolaBot/P" (Polabot)
-path_folder_P = "/home/rblin/Documents/Aquisitions/Traitement_polar/Automne/Brouillard/DM/P"
+
+path_traitement = "/home/rblin/Documents/Aquisitions/Traitement_polar/Automne/Ensoleille/FM/"
+path_folder_P = path_traitement + "P"
 
 imgs_polar_P = sorted(os.listdir(path_folder_P))
 
@@ -21,9 +23,9 @@ for i in range(0, len(imgs_polar_P), 3):
     im_P_temp[:, :, 1] = image_P45_temp
     im_P_temp[:, :, 2] = image_P90_temp
     # imageio.imwrite("/home/rblin/Documents/Traitement_PolaBot/RetinaNet/" + split_temp[0] + ".png", im_P_temp) (Polabot)
-    imageio.imwrite("/home/rblin/Documents/Aquisitions/Traitement_polar/Automne/Brouillard/DM/RetinaNet_P/" + split_temp[0] + ".png", im_P_temp)
+    imageio.imwrite(path_traitement + "RetinaNet_P/" + split_temp[0] + ".png", im_P_temp)
 
-path_folder_Stokes = "/home/rblin/Documents/Aquisitions/Traitement_polar/Automne/Brouillard/DM/Stokes"
+path_folder_Stokes = path_traitement + "Stokes"
 
 imgs_polar_Stokes = sorted(os.listdir(path_folder_Stokes))
 
@@ -36,9 +38,9 @@ for i in range(0, len(imgs_polar_Stokes), 3):
     im_Stokes_temp[:, :, 0] = image_S0_temp
     im_Stokes_temp[:, :, 1] = image_S1_temp
     im_Stokes_temp[:, :, 2] = image_S2_temp
-    imageio.imwrite("/home/rblin/Documents/Aquisitions/Traitement_polar/Automne/Brouillard/DM/RetinaNet_Stokes/" + split_temp[0] + ".png", im_Stokes_temp)
+    imageio.imwrite(path_traitement + "RetinaNet_Stokes/" + split_temp[0] + ".png", im_Stokes_temp)
 
-path_folder_Params = "/home/rblin/Documents/Aquisitions/Traitement_polar/Automne/Brouillard/DM/Params"
+path_folder_Params = path_traitement + "Params"
 
 imgs_polar_Params = sorted(os.listdir(path_folder_Params))
 
@@ -51,4 +53,4 @@ for i in range(0, len(imgs_polar_Params), 3):
     im_Params_temp[:, :, 0] = image_3_temp
     im_Params_temp[:, :, 1] = image_1_temp
     im_Params_temp[:, :, 2] = image_2_temp
-    imageio.imwrite("/home/rblin/Documents/Aquisitions/Traitement_polar/Automne/Brouillard/DM/RetinaNet_Params/" + split_temp[0] + ".png", im_Params_temp)
+    imageio.imwrite(path_traitement + "RetinaNet_Params/" + split_temp[0] + ".png", im_Params_temp)
