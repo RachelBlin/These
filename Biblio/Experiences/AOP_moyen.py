@@ -4,7 +4,7 @@ import imageio
 import matplotlib.pyplot as plt
 import math
 
-path_folder = "AOP_moyen/couvert_fm"
+path_folder = "AOP_filtre_median/brouillard_dm"
 
 files = os.listdir(path_folder)
 
@@ -81,7 +81,9 @@ else:
 
 # Calcul de b_2
 # lien vers la table des alpha : http://www.biostat.ulg.ac.be/pages/Site_r/normalite_files/Table-alpha.pdf
-alpha = [0.4096, 0.2834, 0.2427, 0.2127, 0.1883, 0.1673, 0.1487, 0.1317, 0.1160, 0.1013, 0.0873, 0.0739, 0.0610, 0.0484, 0.0361, 0.0239, 0.0119, 0]
+alpha = [0.4068, 0.2813, 0.2415, 0.2121, 0.1883, 0.1678, 0.1496, 0.1331, 0.1179, 0.1036, 0.0900, 0.0770, 0.0645, 0.0523, 0.0404, 0.0287, 0.0172, 0.0057] # n=36
+#alpha = [0.4643, 0.3185, 0.2578, 0.2119, 0.1736, 0.1399, 0.1092, 0.0804, 0.0530, 0.0263, 0] # n=21
+#alpha = [0.4096, 0.2834, 0.2427, 0.2127, 0.1883, 0.1673, 0.1487, 0.1317, 0.1160, 0.1013, 0.0873, 0.0739, 0.0610, 0.0484, 0.0361, 0.0239, 0.0119, 0] # n=35
 b_2 = 0
 for j in range(k):
     b_2 = b_2 + alpha[j]*d[j]
@@ -96,7 +98,9 @@ W = b_2/S_2
 
 print("W :", W)
 
-W_005 = 0.934
+W_005 = 0.935 # n=36
+#W_005 = 0.908 # n=21
+#W_005 = 0.934 # n=35
 
 if W<W_005:
     print("Les données ne suivent pas la loi normale")
@@ -107,10 +111,10 @@ plt.figure(1)
 plt.axhline(y=np.mean(y_axis), color='r', linestyle='-')
 plt.plot(x_axis, y_axis, "b+")
 plt.title("AOP moyen couvert fin de matinée")
-plt.savefig("graphiques/AOP/couvert_fm.png")
+plt.savefig("graphiques/AOP/filtre_median/brouillard_dm.png")
 plt.show()
 
 plt.figure(2)
 plt.hist(y_axis, int(len(files)/5))
-plt.savefig("graphiques/AOP/hist_couvert_fm.png")
+plt.savefig("graphiques/AOP/filtre_median/hist_brouillard_dm.png")
 plt.show()

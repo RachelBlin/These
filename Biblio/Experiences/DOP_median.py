@@ -13,11 +13,13 @@ y_axis = []
 
 n = len(files)
 
-# Calcul de la liste de la moyenne des DOP par image
+print("Nombre d'éléments : ", n)
+
+# Calcul de la liste de la mediane des AOP par image
 for i in range(n):
     image_temp = imageio.imread(path_folder + "/" + files[i])
-    mean = np.mean(image_temp)
-    y_axis.append(int(mean))
+    med = np.median(image_temp)
+    y_axis.append(int(med))
 
 print(y_axis)
 
@@ -26,18 +28,18 @@ y = sorted(y_axis)
 print(y)
 
 # Calcul de la moyenne des valeurs
-mean = 0
+med = 0
 for c in y_axis:
-    mean = mean + c
+    med = med + c
 
-mean = mean / n
+med = med / n
 
-print("moyenne : ", mean)
+print("moyenne : ", med)
 
 # Calcul de la variance et de l'écart type
 sd = 0
 for j in y_axis:
-    sd = sd + pow(j-mean, 2)
+    sd = sd + pow(j-med, 2)
 
 S_2 = sd
 E_t = sd / n
@@ -50,7 +52,7 @@ print("Variance : ", sd)
 # Calcul du coefficient d'assymétrie
 CA = 0
 for l in y_axis:
-    CA = CA + pow((l-mean)/sd, 3)
+    CA = CA + pow((l-med)/sd, 3)
 
 CA = n/((n-1)*(n-2))*CA
 
@@ -59,7 +61,7 @@ print("Coefficeint d'assymétrie : ", CA)
 # Calcul du coefficient d'applatissement
 CAp = 0
 for m in y_axis:
-    CAp = CAp + pow((m-mean)/sd, 4)
+    CAp = CAp + pow((m-med)/sd, 4)
 
 CAp = n*(n+1)/((n-1)*(n-2)*(n-3))*CAp-3*pow(n-1,2)/((n-2)*(n-3))
 
@@ -105,16 +107,16 @@ W_005 = 0.927 # n=30
 if W<W_005:
     print("Les données ne suivent pas la loi normale")
 else :
-    print("On ne peut pas dire que les données ne suivent pas une loi normale")
+    print("On ne peut considérer avec une confiance de 95% que les données suivent une loi normale")
 
 plt.figure(1)
-plt.axhline(y=np.mean(y_axis), color='r', linestyle='-')
+plt.axhline(y=np.median(y_axis), color='r', linestyle='-')
 plt.plot(x_axis, y_axis, "b+")
-plt.title("DOP moyen brouillard début de matinée")
-plt.savefig("graphiques/DOP/filtre_median/brouillard_dm.png")
+plt.title("DOP médian brouillard début de matinée")
+plt.savefig("graphiques/DOP/filtre_median/bruillard_dm_med.png")
 plt.show()
 
 plt.figure(2)
 plt.hist(y_axis, int(len(files)/5))
-plt.savefig("graphiques/DOP/filtre_median/hist_brouillard_dm.png")
+plt.savefig("graphiques/DOP/filtre_median/hist_brouillard_dm_med.png")
 plt.show()
