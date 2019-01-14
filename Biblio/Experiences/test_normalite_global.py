@@ -33,6 +33,7 @@ for j in range(len(files2)):
     unique, counts = np.unique(image_temp, return_counts=True)
     unique = unique / 255  # seulement pour DOP
     max = np.argmax(counts[1:len(counts)])
+    #maximum[len(files1) + j] = unique[max + 1]
     maximum[j] = unique[max + 1]
 
 for k in range(len(files3)):
@@ -40,6 +41,7 @@ for k in range(len(files3)):
     unique, counts = np.unique(image_temp, return_counts=True)
     unique = unique / 255  # seulement pour DOP
     max = np.argmax(counts[1:len(counts)])
+    #maximum[len(files1) + len(files2) + k] = unique[max + 1]
     maximum[len(files2) + k] = unique[max + 1]
 
 for l in range(len(files4)):
@@ -47,6 +49,7 @@ for l in range(len(files4)):
     unique, counts = np.unique(image_temp, return_counts=True)
     unique = unique / 255  # seulement pour DOP
     max = np.argmax(counts[1:len(counts)])
+    #maximum[len(files1) + len(files2) + len(files3) + l] = unique[max + 1]
     maximum[len(files2) + len(files3) + l] = unique[max + 1]
 
 valeurs = random.sample(maximum.tolist(), 50)
@@ -151,27 +154,29 @@ else :
 
 x_axis= [i for i in range(len(files))]
 
-"""plt.figure(1)
+plt.figure(1)
 l1 = plt.axhline(y=np.mean(maximum), color='r', linestyle='-')
 l2 = plt.axhline(y=np.median(maximum), color='c', linestyle='-')
+l3 = plt.axhline(y=np.percentile(maximum, 75), color='y', linestyle='--')
+plt.axhline(y=np.percentile(maximum, 25), color='y', linestyle='--')
 plt.plot(x_axis, sorted(maximum), "b+")
 y_smooth = gaussian_filter1d(sorted(maximum), sigma=2)
 plt.plot(x_axis, y_smooth, "g")
-plt.legend((l1, l2), ('moyenne', 'mediane'))
+plt.legend((l1, l2, l3), ('moyenne', 'mediane', '1er et 3e quartiles'))
 plt.title("DOP max tous temps confondus")
-plt.savefig("graphiques/DOP/classique/DOP_max_sb.png")
+plt.savefig("graphiques/DOP/classique/DOP_max_sb_sorted.png")
 plt.show()
 
-plt.figure(2)
+"""plt.figure(2)
 m, bins, patches = plt.hist(maximum, 20, normed=1, facecolor='blue', alpha=2)
 norm = mlab.normpdf(bins, np.mean(maximum), np.std(maximum))
 ll = plt.plot(bins, norm, 'r--')
-plt.savefig("graphiques/DOP/classique/hist_DOP_max_sb.png")
+plt.savefig("graphiques/DOP/classique/hist_DOP_max.png")
 plt.show()"""
 
-plt.figure(3)
+"""plt.figure(3)
 m, bins, patches = plt.hist(y, 20, normed=1, facecolor='blue', alpha=2)
 norm = mlab.normpdf(bins, np.mean(y), sd)
 ll = plt.plot(bins, norm, 'r--')
 plt.savefig("graphiques/DOP/classique/hist_DOP_max_50_sb.png")
-plt.show()
+plt.show()"""
