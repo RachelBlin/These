@@ -1,6 +1,7 @@
 # Type de fichiers à ignorer
 
-*.ipynb_checkpoints/
+*.ipynb_checkpoints
+*.DS_Store
 
 # Dossiers à ignorer
 
