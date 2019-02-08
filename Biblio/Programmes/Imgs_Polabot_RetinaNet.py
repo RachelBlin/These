@@ -7,7 +7,7 @@ import imageio
 
 # path_folder = "/home/rblin/Documents/Traitement_PolaBot/P" (Polabot)
 
-path_traitement = "/home/rblin/Documents/Aquisitions/Traitement_polar/Automne/Ensoleille/FM/"
+path_traitement = "/home/rblin/Documents/Aquisitions/Traitement_polar/Hiver/Brouillard/DM/"
 path_folder_P = path_traitement + "P"
 
 imgs_polar_P = sorted(os.listdir(path_folder_P))

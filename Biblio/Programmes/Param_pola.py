@@ -17,7 +17,7 @@ import numpy as np
 import imageio
 
 # path_folder = "/home/rblin/Documents/Archive/images/PolaBot-Dataset/PolarCam" (PolaBot)
-path_folder = "/home/rblin/Documents/Aquisitions/Polar/Automne/Ensoleille/FM"
+path_folder = "/home/rblin/Documents/Aquisitions/Polar/Hiver/Brouillard/DM"
 
 imgs_polar = sorted(os.listdir(path_folder))
 # imgs_polar.remove(".DS_Store")
@@ -54,7 +54,7 @@ for k in range(len(imgs_polar)):
     imageio.imwrite("/home/rblin/Documents/Traitement_PolaBot/P/" + str(k) + "_P45.png", P45)
     imageio.imwrite("/home/rblin/Documents/Traitement_PolaBot/P/" + str(k) + "_P90.png", P90)"""
 
-    path_traitement = "/home/rblin/Documents/Aquisitions/Traitement_polar/Automne/Ensoleille/FM/"
+    path_traitement = "/home/rblin/Documents/Aquisitions/Traitement_polar/Hiver/Brouillard/DM/"
 
     # Caméra polarimétrique
     imageio.imwrite(path_traitement + "P/" + str(k) + "_P0.png", P0)
