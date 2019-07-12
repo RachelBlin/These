@@ -32,8 +32,8 @@ for k in range(1):
             super_pixel = image[i:i + 2, j:j + 2]
             P0[int(i / 2), int(j / 2)] = super_pixel[0, 1]
             P45[int(i / 2), int(j / 2)] = super_pixel[0, 0]
-            P90[int(i / 2), int(j / 2)] = super_pixel[1, 1]
-            P135[int(i / 2), int(j / 2)] = super_pixel[1, 0]
+            P90[int(i / 2), int(j / 2)] = super_pixel[1, 0]
+            P135[int(i / 2), int(j / 2)] = super_pixel[1, 1]
 
     # Calcul des paramètres de Stokes
 
