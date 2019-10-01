@@ -69,7 +69,7 @@ def rename_rgb(path_rgb_movie):
             for f in files:
                 name = f.split("frame")
                 frame_number = name[1].split(".")
-                nb = str(int(frame_number[0]) + 41857)
+                nb = str(int(frame_number[0]) + len_seq)
                 if len(nb) == 1:
                     nb = '000000' + nb
                 elif len(nb) == 2:
@@ -83,7 +83,7 @@ def rename_rgb(path_rgb_movie):
                 elif len(nb) == 6:
                     nb = '0' + nb
                 os.rename(path_rgb_movie + seq + "/" + f, path_rgb_movie + seq + "/" + nb + ".png")
-            len_seq = len(files)
+        len_seq += len(files)
 
 def move_rgb(path_rgb_movie, final_path):
     sequences = sorted(os.listdir(path_rgb_movie))
@@ -103,8 +103,8 @@ path_5 = "/media/rblin/87c4f13b-ad62-44ef-babf-70c3e7c8a343/polar/13_05_2019_15h
 
 #rename_frames_in_order_param(path_5)
 
-path_rgb_movie = "/media/rblin/LaCie/Aquisitions_goPro_Polar/07_05_2019_16h30/RGB/frames/"
-final_path = "/home/rblin/Documents/17_05_2019_16h30_rgb/"
+path_rgb_movie = "/home/rblin/Documents/Databases/11_05_2019/frames/"
+final_path = "/home/rblin/Documents/Databases/11_05_2019/rgb/"
 rename_rgb(path_rgb_movie)
 
 move_rgb(path_rgb_movie, final_path)
