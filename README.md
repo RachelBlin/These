@@ -1,5 +1,11 @@
-## Détection d'obstacles routiers en conditions météorologiques dégradées en utilisant le Deep learning appliqué à l'imagerie polarimétrique ##
+# Tacking of the progress of my PhD
 
-Ce git permet de répertorier l'avancée de ma thèse qui porte sur la détection d'obstacles routiers en conditions météorologiques dégradées. Pour ce faire, je vais utiliser des méthodes de Deep learning appliquées à l'imagerie polarimétrique. En effet, le Deep Learning a déjà démontré son efficacité dans le domaine de la détection d'obstacles et plus particulièrement dans des scènes routière et la polarimétrie a plusieurs applications visant à caractériser un objet. 
+In this project, I'll provide documents helping my supervisors to keep a track of the work carried out during my PhD. My subject is the detection of objects in road scenes in adverse weather conditions using Deep Learning and polarimetric imaging.
 
-Ce git servira donc à tracer le travail que j'ai effectué qui sera répertorié dans le dossier CR. De plus, il servira également à garder une trace du résumé de certaines notions en rapport avec l'état de l'art de mon domaine ainsi que des expériences pour les mettre en application, répertoriées dans le dossier Biblio.
+## Overvoew of the content
+
+In this project you'll find several reports summing up the work I carried out weekly and keeping a track of what was being said during meetings. You'll also find some small experiments I made, using new algorithms or databases.
+
+## Authors
+
+* **Rachel Blin** - [Website](http://pagesperso.litislab.fr/rblin/)
